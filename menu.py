@@ -53,8 +53,169 @@ subMenuBarajaEnemigoCargada='''
 ====================================
 '''
 #Cargar xml
-def barajaAleatoria():
-    print("hola")
+"<=====================================================   START Cartas Aliada Aleatorio FUNCTION    ======================================>"
+
+def randomPosAliada():
+    randomPos = []
+    i = 0
+    while i < 10:
+        pos =  random.randrange(1, 20)
+        if pos not in randomPos:
+            randomPos.append(pos)
+            i += 1
+    generarCartaAliada(randomPos)
+
+def generarCartaAliada(randomPos):
+
+    cards = []
+    for i in range(len(randomPos)):
+        cardSumPoint = root.find('.//card[' + str(randomPos[i]) + ']').attrib['summonPoints']
+        cardType = root.find('.//card[' + str(randomPos[i]) + ']').attrib['type']
+        cardName = root.findtext('.//card[' + str(randomPos[i]) + ']/name')
+        cardDesc = root.findtext('.//card[' + str(randomPos[i]) + ']/description')
+        cardAtk = root.findtext('.//card[' + str(randomPos[i]) + ']/attack')
+        cardDef = root.findtext('.//card[' + str(randomPos[i]) + ']/defense')
+
+        card = {
+            "Name" : cardName,
+            "Decription" : cardDesc,
+            "Attack" : cardAtk,
+            "Defense" : cardDef,
+            "SummonPoints" : cardSumPoint,
+            "Type" : cardType
+        }
+
+        cards.append(card)
+    mostrarCartasAliadas(cards)
+
+def mostrarCartasAliadas(cards):
+
+    for i in range(len(cards)):
+        print(cards[i])
+
+"<=====================================================   END Cartas Aliada Aleatorio FUNCTION    ======================================>"
+"<=====================================================   START Cartas Enemigo Aleatorio FUNCTION    ======================================>"
+
+def randomPosEnemiga():
+    randomPos = []
+    i = 0
+    while i < 10:
+        pos =  random.randrange(1, 20)
+        if pos not in randomPos:
+            randomPos.append(pos)
+            i += 1
+    generarCartaEnemigas(randomPos)
+
+def generarCartaEnemigas(randomPos):
+
+    cards = []
+    for i in range(len(randomPos)):
+        cardSumPoint = enemyRoot.find('.//card[' + str(randomPos[i]) + ']').attrib['summonPoints']
+        cardType = enemyRoot.find('.//card[' + str(randomPos[i]) + ']').attrib['type']
+        cardName = enemyRoot.findtext('.//card[' + str(randomPos[i]) + ']/name')
+        cardDesc = enemyRoot.findtext('.//card[' + str(randomPos[i]) + ']/description')
+        cardAtk = enemyRoot.findtext('.//card[' + str(randomPos[i]) + ']/attack')
+        cardDef = enemyRoot.findtext('.//card[' + str(randomPos[i]) + ']/defense')
+
+        card = {
+            "Name" : cardName,
+            "Decription" : cardDesc,
+            "Attack" : cardAtk,
+            "Defense" : cardDef,
+            "SummonPoints" : cardSumPoint,
+            "Type" : cardType
+        }
+
+        cards.append(card)
+    mostrarCartasEnemigas(cards)
+
+def mostrarCartasEnemigas(cards):
+
+    for i in range(len(cards)):
+        print(cards[i])
+
+"<=====================================================   END Cartas Enemigo Aleatorio FUNCTION    ======================================>"
+"<=====================================================   START Cartas Aliado Equilibrado FUNCTION    ======================================>"
+
+def cartaEquilibradaAliada():
+
+    cards = []
+    for i in range(1 ,20):
+        cardSumPoint = root.find('.//card[' + str(i) + ']').attrib['summonPoints']
+        cardType = root.find('.//card[' + str(i) + ']').attrib['type']
+        cardName = root.findtext('.//card[' + str(i) + ']/name')
+        cardDesc = root.findtext('.//card[' + str(i) + ']/description')
+        cardAtk = root.findtext('.//card[' + str(i) + ']/attack')
+        cardDef = root.findtext('.//card[' + str(i) + ']/defense')
+
+        media = int(cardAtk) - int(cardDef)
+        media = abs(media)
+
+        card = {
+            "Name" : cardName,
+            "Decription" : cardDesc,
+            "Attack" : cardAtk,
+            "Defense" : cardDef,
+            "SummonPoints" : cardSumPoint,
+            "Type" : cardType,
+            "Media" : media
+        }
+        cards.append(card)
+    listaOrdenada = sorted(cards, key = lambda card : card['Media'])
+    barajaEquilibradaOrdenada = []
+    for j in range(0,10):
+        del listaOrdenada[j]["Media"]
+        barajaEquilibradaOrdenada.append(listaOrdenada[j])
+    mostrarCartasEquilibradasAliadas(barajaEquilibradaOrdenada)
+
+def mostrarCartasEquilibradasAliadas(barajaEquilibradaOrdenada):
+
+    for i in range(len(barajaEquilibradaOrdenada)):
+        print(barajaEquilibradaOrdenada[i])
+
+"<=====================================================   END Cartas Aliado Equilibrado FUNCTION    ======================================>"
+
+
+"<=====================================================   START Cartas Enemigo Equilibrado FUNCTION    ======================================>"
+
+def cartaEquilibradaEnemiga():
+
+    cards = []
+    for i in range(1 ,20):
+        cardSumPoint = enemyRoot.find('.//card[' + str(i) + ']').attrib['summonPoints']
+        cardType = enemyRoot.find('.//card[' + str(i) + ']').attrib['type']
+        cardName = enemyRoot.findtext('.//card[' + str(i) + ']/name')
+        cardDesc = enemyRoot.findtext('.//card[' + str(i) + ']/description')
+        cardAtk = enemyRoot.findtext('.//card[' + str(i) + ']/attack')
+        cardDef = enemyRoot.findtext('.//card[' + str(i) + ']/defense')
+
+        media = int(cardAtk) - int(cardDef)
+        media = abs(media)
+
+        card = {
+            "Name" : cardName,
+            "Decription" : cardDesc,
+            "Attack" : cardAtk,
+            "Defense" : cardDef,
+            "SummonPoints" : cardSumPoint,
+            "Type" : cardType,
+            "Media" : media
+        }
+        cards.append(card)
+    listaOrdenada = sorted(cards, key = lambda card : card['Media'])
+    barajaEquilibradaOrdenada = []
+    for j in range(0,10):
+        del listaOrdenada[j]["Media"]
+        barajaEquilibradaOrdenada.append(listaOrdenada[j])
+    mostrarCartasEquilibradasAliadas(barajaEquilibradaOrdenada)
+
+def mostrarCartasEquilibradasEnemiga(barajaEquilibradaOrdenada):
+
+    for i in range(len(barajaEquilibradaOrdenada)):
+        print(barajaEquilibradaOrdenada[i])
+
+"<=====================================================   END Cartas Enemigo Equilibrado FUNCTION    ======================================>"
+
 
 def barajaOfensivaEnemigo():
     tree = ETree.parse("Enemigo.xml")
@@ -218,7 +379,7 @@ while status:
                 option = int(input("Selecciona una opcion: "))
             if  option == 1:
                 print("Creando mazo aleatorio...")
-                barajaAleatoria()
+                randomPosAliada()
                 status = False
             elif option == 2:
                 print("Creando mazo ofensivo...")
@@ -230,6 +391,7 @@ while status:
                 barajaDefensiva()
             elif option ==4:
                 print("Creando mazo equilibrado")
+                cartaEquilibradaAliada()
                 status = False
             elif option == 5:
                 status = True
@@ -243,7 +405,7 @@ while status:
                 option = int(input("Selecciona una opcion: "))
             if option == 1:
                 print("Creando mazo aleatorio...")
-                barajaAleatoria()
+                randomPosAliada()
                 status = False
             elif option == 2:
                 print("Creando mazo ofensivo...")
@@ -255,18 +417,23 @@ while status:
                 barajaDefensiva()
             elif option == 4:
                 print("Creando mazo equilibrado")
+                cartaEquilibradaAliada()
                 status = False
             elif option == 5:
                 print("Creando mazo del enemigo aleatorio...")
+                randomPosEnemiga()
                 status = False
             elif option == 6:
                 print("Creando mazo del enemigo ofensivo...")
+                barajaOfensivaEnemigo()
                 status = False
             elif option == 7:
                 print("Creando mazo del enemigo defensivo...")
+                barajaDefensivaEnemigo()
                 status = False
             elif option == 8:
                 print("Creando mazo del enemigo equilibrado...")
+                cartaEquilibradaEnemiga()
                 status = False
             elif option == 9:
                 print("Preparando lucha Jugador vs Jugador...")
@@ -293,6 +460,7 @@ while status:
                 option = int(input("Selecciona una opcion: "))
             if  option == 1:
                 print("Creando mazo del enemigo aleatorio...")
+                randomPosEnemiga()
                 status = False
             elif option == 2:
                 print("Creando mazo del enemigo ofensivo...")
@@ -304,6 +472,7 @@ while status:
                 barajaDefensivaEnemigo()
             elif option ==4:
                 print("Creando mazo del enemigo equilibrado")
+                cartaEquilibradaEnemiga()
                 status = False
             elif option == 5:
                 status = True
@@ -317,29 +486,34 @@ while status:
                 option = int(input("Selecciona una opcion: "))
             if option == 1:
                 print("Creando mazo aleatorio...")
+                randomPosAliada()
                 status = False
             elif option == 2:
                 print("Creando mazo ofensivo...")
+                barajaOfensiva()
                 status = False
-                barajaOfensivaEnemigo()
             elif option == 3:
                 print("Creando mazo defensivo...")
+                barajaDefensiva()
                 status = False
-                barajaDefensivaEnemigo()
             elif option == 4:
                 print("Creando mazo equilibrado")
+                cartaEquilibradaAliada()
                 status = False
             elif option == 5:
                 print("Creando mazo del enemigo aleatorio...")
                 status = False
             elif option == 6:
                 print("Creando mazo del enemigo ofensivo...")
+                barajaOfensivaEnemigo()
                 status = False
             elif option == 7:
                 print("Creando mazo del enemigo defensivo...")
+                barajaDefensivaEnemigo()
                 status = False
             elif option == 8:
                 print("Creando mazo del enemigo equilibrado...")
+                cartaEquilibradaEnemiga()
                 status = False
             elif option == 9:
                 print("Preparando lucha Jugador vs Jugador...")
